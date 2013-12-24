@@ -1,10 +1,5 @@
 package com.senior.bluehome;
 
-
-
-
-
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -55,7 +50,24 @@ public class MainActivity extends Activity {
 		 
 	  }
 	 
-	  public void addListenerOnLightButton() {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.home_controls:
+	        	return super.onOptionsItemSelected(item);
+	        case R.id.media_player:
+	            startActivity(new Intent(this, MediaPlayer.class));
+	            return true;
+	        case R.id.action_settings:
+	            startActivity(new Intent(this, Settings.class));
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	public void addListenerOnLightButton() {
 	 
 		toggle_living_room = (ToggleButton) findViewById(R.id.toggle_living_room);
 		toggle_living_room.setOnClickListener(new OnClickListener() {		 

@@ -15,12 +15,22 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.senior.bluehome.MainActivity"
+            android:launchMode="singleTask"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.senior.bluehome.MediaPlayer"
+            android:launchMode="singleTask"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.senior.bluehome.Settings"
+            android:launchMode="singleTask"
+            android:label="@string/app_name" >
         </activity>
     </application>
 

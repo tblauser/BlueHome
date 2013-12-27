@@ -14,4 +14,13 @@
     <string name="toggle_on">ON</string>
     <string name="toggle_off">OFF</string>
     <string name="btn_display">Display</string>
+    <string name="play">Play</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="next_song">Next Song</string>
+    <string name="previous_song">Previous Song</string>
+    <string name="repeat">Repeat</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="playlist">Playlist</string>
+    <string name="image">Image</string>
 </resources>

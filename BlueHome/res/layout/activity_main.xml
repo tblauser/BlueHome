@@ -121,7 +121,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="68dp"
-        android:layout_toRightOf="@+id/textView1"
         android:text="@string/btn_display" />
 
 </RelativeLayout>

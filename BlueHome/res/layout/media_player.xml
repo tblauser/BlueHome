@@ -17,15 +17,14 @@
         <!-- Song Title -->
         <TextView 
             android:id="@+id/songTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="#04b3d2"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:paddingLeft="10dp"
             android:textStyle="bold"
-            android:text="The Good, The Bad And The Ugly"
-            android:layout_marginTop="10dp"/>"
+            android:layout_marginTop="10dp"/>
         
         <!-- Playlist button -->
         <ImageButton 
@@ -33,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:src="@drawable/btn_playlist"
+            android:contentDescription="@string/playlist"
             android:background="@null"/>
     </LinearLayout>
     
@@ -45,9 +45,11 @@
         android:paddingBottom="10dp"
         android:gravity="center"
         android:layout_below="@id/player_header_bg">
-    	<ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/adele"/>    
+    	<ImageView 
+    	    android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:contentDescription="@string/image"
+        	android:src="@drawable/adele"/>    
     </LinearLayout>
     
     <!-- Player Footer -->
@@ -72,6 +74,7 @@
             <ImageButton
                 android:id="@+id/btnPrevious" 
                 android:src="@drawable/btn_previous"
+                android:contentDescription="@string/previous_song"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
@@ -79,6 +82,7 @@
             <ImageButton 
                 android:id="@+id/btnBackward"
                 android:src="@drawable/btn_backward"
+                android:contentDescription="@string/previous"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
@@ -86,6 +90,7 @@
             <ImageButton 
                 android:id="@+id/btnPlay"
                 android:src="@drawable/btn_play"
+                android:contentDescription="@string/play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
@@ -93,6 +98,7 @@
             <ImageButton 
                 android:id="@+id/btnForward"
                 android:src="@drawable/btn_forward"
+                android:contentDescription="@string/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
@@ -100,6 +106,7 @@
             <ImageButton 
                 android:id="@+id/btnNext"
                 android:src="@drawable/btn_next"
+                android:contentDescription="@string/next_song"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"/>
@@ -161,6 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/btn_repeat"
+            android:contentDescription="@string/repeat"
             android:layout_marginRight="5dp"
             android:background="@null"/>
         
@@ -170,6 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/btn_shuffle"
+            android:contentDescription="@string/shuffle"
             android:layout_marginLeft="5dp"
             android:background="@null"/>
     </LinearLayout>

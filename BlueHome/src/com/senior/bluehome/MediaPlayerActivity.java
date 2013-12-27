@@ -81,7 +81,7 @@ package com.senior.bluehome;
 			songsList = songManager.getPlayList(this);
 			
 			// By default play first song
-			playSong(0);
+//			playSong(0);
 			
 			addListenerOnMediaButton();
 			

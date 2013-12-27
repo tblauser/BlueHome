@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
 	        case R.id.home_controls:
 	        	return super.onOptionsItemSelected(item);
 	        case R.id.media_player:
-	            startActivity(new Intent(this, MediaPlayer.class));
+	            startActivity(new Intent(this, MediaPlayerActivity.class));
 	            return true;
 	        case R.id.action_settings:
 	            startActivity(new Intent(this, Settings.class));

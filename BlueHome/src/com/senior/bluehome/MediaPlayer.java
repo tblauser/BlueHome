@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class Settings extends Activity {
+public class MediaPlayer extends Activity {
 	private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
 	// Name of connected device
@@ -32,7 +32,7 @@ public class Settings extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.settings);
+		setContentView(R.layout.media_player);
 		
 //		BluetoothAdapter = android.bluetooth.BluetoothAdapter.getDefaultAdapter();
 //		
@@ -42,7 +42,6 @@ public class Settings extends Activity {
 //            return;
 //		}
 		
-		
 		 
 	  }
 	 
@@ -51,25 +50,17 @@ public class Settings extends Activity {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.home_controls:
-<<<<<<< HEAD
-	        	startActivity( new Intent(this, MainActivity.class));
-	            return true;
-	        case R.id.media_player:
-	            startActivity(new Intent(this, MediaPlayerActivity.class));
-=======
 	        	startActivity(new Intent(this, MainActivity.class));
 	            return true;
 	        case R.id.media_player:
-	            startActivity(new Intent(this, MediaPlayer.class));
->>>>>>> refs/remotes/origin/master
-	            return true;
-	        case R.id.action_settings:
 	        	return super.onOptionsItemSelected(item);
+	        case R.id.action_settings:
+	            startActivity(new Intent(this, Settings.class));
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -51,17 +51,10 @@ public class Settings extends Activity {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.home_controls:
-<<<<<<< HEAD
 	        	startActivity( new Intent(this, MainActivity.class));
 	            return true;
 	        case R.id.media_player:
 	            startActivity(new Intent(this, MediaPlayerActivity.class));
-=======
-	        	startActivity(new Intent(this, MainActivity.class));
-	            return true;
-	        case R.id.media_player:
-	            startActivity(new Intent(this, MediaPlayer.class));
->>>>>>> refs/remotes/origin/master
 	            return true;
 	        case R.id.action_settings:
 	        	return super.onOptionsItemSelected(item);

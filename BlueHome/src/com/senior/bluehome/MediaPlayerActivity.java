@@ -367,7 +367,8 @@ package com.senior.bluehome;
 		 * Background Runnable thread
 		 * */
 		private Runnable mUpdateTimeTask = new Runnable() {
-			   public void run() {
+			   @Override
+			public void run() {
 				   long totalDuration = mp.getDuration();
 				   long currentDuration = mp.getCurrentPosition();
 				  
@@ -377,7 +378,7 @@ package com.senior.bluehome;
 				   songCurrentDurationLabel.setText(""+utils.milliSecondsToTimer(currentDuration));
 				   
 				   // Updating progress bar
-				   int progress = (int)(utils.getProgressPercentage(currentDuration, totalDuration));
+				   int progress = (utils.getProgressPercentage(currentDuration, totalDuration));
 				   //Log.d("Progress", ""+progress);
 				   songProgressBar.setProgress(progress);
 				   

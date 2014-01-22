@@ -43,22 +43,22 @@ public class MainActivity extends Activity {
 		 
 	  }
 	 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.home_controls:
-	        	return super.onOptionsItemSelected(item);
-	        case R.id.media_player:
-	            startActivity(new Intent(this, MediaPlayerActivity.class));
-	            return true;
-	        case R.id.action_settings:
-	            startActivity(new Intent(this, Settings.class));
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//	    // Handle presses on the action bar items
+//	    switch (item.getItemId()) {
+//	        case R.id.home_controls:
+//	        	return super.onOptionsItemSelected(item);
+//	        case R.id.media_player:
+//	            startActivity(new Intent(this, MediaPlayerActivity.class));
+//	            return true;
+//	        case R.id.action_settings:
+//	            startActivity(new Intent(this, Settings.class));
+//	            return true;
+//	        default:
+//	            return super.onOptionsItemSelected(item);
+//	    }
+//	}
 
 	public void addListenerOnLightButton() {
 	 

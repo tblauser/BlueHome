@@ -266,22 +266,22 @@ package com.senior.bluehome;
 		}
 
 		
-		@Override
-		public boolean onOptionsItemSelected(MenuItem item) {
-		    // Handle presses on the action bar items
-		    switch (item.getItemId()) {
-		        case R.id.home_controls:
-		        	startActivity(new Intent(this, MainActivity.class));
-		            return true;
-		        case R.id.media_player:
-		        	return super.onOptionsItemSelected(item);
-		        case R.id.action_settings:
-		            startActivity(new Intent(this, Settings.class));
-		            return true;
-		        default:
-		            return super.onOptionsItemSelected(item);
-		    }
-		}
+//		@Override
+//		public boolean onOptionsItemSelected(MenuItem item) {
+//		    // Handle presses on the action bar items
+//		    switch (item.getItemId()) {
+//		        case R.id.home_controls:
+//		        	startActivity(new Intent(this, MainActivity.class));
+//		            return true;
+//		        case R.id.media_player:
+//		        	return super.onOptionsItemSelected(item);
+//		        case R.id.action_settings:
+//		            startActivity(new Intent(this, Settings.class));
+//		            return true;
+//		        default:
+//		            return super.onOptionsItemSelected(item);
+//		    }
+//		}
 
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {

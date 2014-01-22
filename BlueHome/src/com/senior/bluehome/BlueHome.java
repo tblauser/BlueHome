@@ -669,14 +669,8 @@ public class BlueHome extends Activity {
         case R.id.menu_special_keys:
             doDocumentKeys();
             return true;
-        case R.id.home_controls:
-        	startActivity(new Intent(this, MainActivity.class));
-        	return true;
         case R.id.media_player:
             startActivity(new Intent(this, MediaPlayerActivity.class));
-            return true;
-        case R.id.action_settings:
-            startActivity(new Intent(this, Settings.class));
             return true;
         default:
             return super.onOptionsItemSelected(item);

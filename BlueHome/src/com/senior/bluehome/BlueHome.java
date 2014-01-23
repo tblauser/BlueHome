@@ -111,7 +111,7 @@ public class BlueHome extends Activity {
 	private boolean mEnablingBT;
     private boolean mLocalEcho = false;
     private int mFontSize = 9;
-    private int mColorId = 2;
+    private int mColorId = 0;
     private int mControlKeyId = 0;
 
     private static final String LOCALECHO_KEY = "localecho";
@@ -124,7 +124,7 @@ public class BlueHome extends Activity {
     public static final int BLUE = 0xff344ebd;
 
     private static final int[][] COLOR_SCHEMES = {
-        {BLACK, WHITE}, {WHITE, BLACK}, {WHITE, BLUE}};
+        {BLACK, WHITE}, {BLACK, WHITE}, {BLACK, WHITE}};
 
     private static final int[] CONTROL_KEY_SCHEMES = {
         KeyEvent.KEYCODE_DPAD_CENTER,
@@ -419,7 +419,7 @@ public class BlueHome extends Activity {
     }
     
     public void toggleKeyboard() {
-  		mInputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+//  		mInputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
     
     public int getTitleHeight() {

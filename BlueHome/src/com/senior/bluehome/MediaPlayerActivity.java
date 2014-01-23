@@ -1,7 +1,4 @@
 package com.senior.bluehome;
-
-	 
-
 	
 	import java.io.IOException;
 	import java.util.ArrayList;

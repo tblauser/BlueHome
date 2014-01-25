@@ -120,13 +120,38 @@
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
         android:checked="true" />
+    
+    <ImageButton
+        android:id="@+id/btnSpeak"
+        android:layout_width="65dip"
+        android:layout_height="65dip"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="280dp"
+        android:paddingBottom="1000dp"
+        android:paddingTop="1000dp"
+        android:src="@drawable/mic" 
+        android:contentDescription="@string/mic"/>
+    
+    <TextView
+        android:id="@+id/mList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="260dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/btnDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="68dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="290dp"
         android:text="@string/btn_display" />
+    
+    
 
 </RelativeLayout>

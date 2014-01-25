@@ -14,6 +14,7 @@
     <string name="toggle_on">ON</string>
     <string name="toggle_off">OFF</string>
     <string name="btn_display">Display</string>
+    <string name="mic">MIC</string>
     <string name="play">Play</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>

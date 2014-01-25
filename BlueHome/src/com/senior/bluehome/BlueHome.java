@@ -2,14 +2,20 @@ package com.senior.bluehome;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -20,6 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -39,7 +46,10 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -49,6 +59,7 @@ public class BlueHome extends Activity {
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
+    private static final int RESULT_SPEECH = 3;
 
     private static TextView mTitle;
 
@@ -132,6 +143,7 @@ public class BlueHome extends Activity {
         KeyEvent.KEYCODE_ALT_LEFT,
         KeyEvent.KEYCODE_ALT_RIGHT
     };
+	
 //    private static final String[] CONTROL_KEY_NAME = {
 //        "Ball", "@", "Left-Alt", "Right-Alt"
 //    };
@@ -145,6 +157,8 @@ public class BlueHome extends Activity {
     private ToggleButton toggle_living_room, toggle_kitchen,toggle_master_bedroom;
 	private ToggleButton toggle_bedroom1,toggle_bedroom2;
 	private Button btnDisplay;
+	private ImageButton btnSpeak;
+	public ListView mList;
     
 	/** Called when the activity is first created. */
 	@Override
@@ -195,12 +209,21 @@ public class BlueHome extends Activity {
 
         mSerialService = new BluetoothSerialService(this, mHandlerBT, mEmulatorView);        
         addListenerOnLightButton();
+     // Disable button if no recognition service is present
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> activities = pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        if (activities.size() == 0)
+        {
+            btnSpeak.setEnabled(false);
+//            btnSpeak.setText("Recognizer not present");
+        }
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ DONE IN ON CREATE +++");
 	}
 	
 	public void addListenerOnLightButton() {
-		 
+//		mList = (ListView) findViewById(R.id.mList);
 		toggle_living_room = (ToggleButton) findViewById(R.id.toggle_living_room);
 		toggle_living_room.setOnClickListener(new OnClickListener() {		 
 			@Override
@@ -262,7 +285,6 @@ public class BlueHome extends Activity {
 		});
 		
 		btnDisplay = (Button) findViewById(R.id.btnDisplay);
-	 
 		btnDisplay.setOnClickListener(new OnClickListener() {
 	 
 			@Override
@@ -281,7 +303,38 @@ public class BlueHome extends Activity {
 			}
 	 
 		});
+		
+		btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
+		btnSpeak.setOnClickListener(new OnClickListener(){
+		@Override
+		public void onClick(View v) {
+			startVoiceRecognitionActivity();
+ 
+			}
+		});
 	  }
+
+	public void startVoiceRecognitionActivity() {
+		Intent intent = new Intent(
+				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");
+
+		try {
+			startActivityForResult(intent, RESULT_SPEECH);
+		} catch (ActivityNotFoundException a) {
+			Toast t = Toast.makeText(getApplicationContext(),
+					"Ops! Your device doesn't support Speech to Text",
+					Toast.LENGTH_SHORT);
+			t.show();
+		}
+//	    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//	    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+//	        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//	    intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+//	        "Speech recognition demo");
+//	    startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+	}
 
 	@Override
 	public void onStart() {
@@ -514,6 +567,7 @@ public class BlueHome extends Activity {
     @Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(DEBUG) Log.d(LOG_TAG, "onActivityResult " + resultCode);
+        
         switch (requestCode) {
         
         case REQUEST_CONNECT_DEVICE:
@@ -537,9 +591,40 @@ public class BlueHome extends Activity {
                 
                 finishDialogNoBluetooth();                
             }
-        }
+        
+        case RESULT_SPEECH:
+        	if (resultCode == RESULT_OK) {
+                ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                if(DEBUG) {
+                	for(int i=0;i<matches.size();i++)
+                		Log.i(LOG_TAG, matches.get(i));
+                }
+                processVoiceCommand(matches);
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }  	
     }
-    @Override
+    
+    private void processVoiceCommand(ArrayList<String> matches) {
+//    	ArrayList<String> keywords = new ArrayList<String>();
+//        for (int i = 0; i<matches.size();i++) {
+//        	String[] parts = matches.get(i).split(" ");
+//        	for (int j = 0; j<parts.length; i++) {
+//        		keywords.add(parts[j]);
+//        	}
+//        }
+            StringBuffer result = new StringBuffer();
+            if (matches.contains("on"))
+            	toggle_living_room.setChecked(true);
+            else if (matches.contains("off"))
+            	toggle_living_room.setChecked(false);
+			result.append("Living Room : ").append(toggle_living_room.getText());
+			Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
+	}
+    
+    
+
+	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (handleControlKey(keyCode, true)) {
             return true;

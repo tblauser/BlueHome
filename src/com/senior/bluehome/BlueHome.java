@@ -4,7 +4,6 @@ package com.senior.bluehome;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -46,7 +45,6 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -605,6 +603,12 @@ public class BlueHome extends Activity {
         }  	
     }
     
+    public void processInputCommand(String command) {
+        TextView textView = (TextView) findViewById(R.id.debugMessage);
+        textView.setText(command);
+        return;
+    }
+    
     private void processVoiceCommand(ArrayList<String> matches) {
 //    	ArrayList<String> keywords = new ArrayList<String>();
 //        for (int i = 0; i<matches.size();i++) {
@@ -614,9 +618,9 @@ public class BlueHome extends Activity {
 //        	}
 //        }
             StringBuffer result = new StringBuffer();
-            if (matches.contains("on"))
+            if (matches.contains("kitchen on"))
             	toggle_living_room.setChecked(true);
-            else if (matches.contains("off"))
+            else if (matches.contains("kitchen off"))
             	toggle_living_room.setChecked(false);
 			result.append("Living Room : ").append(toggle_living_room.getText());
 			Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
@@ -3271,11 +3275,14 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
     private void update() {
         int bytesAvailable = mByteQueue.getBytesAvailable();
         int bytesToRead = Math.min(bytesAvailable, mReceiveBuffer.length);
+        byte[] inputCommand = new byte[bytesToRead];
         try {
-            int bytesRead = mByteQueue.read(mReceiveBuffer, 0, bytesToRead);
-            append(mReceiveBuffer, 0, bytesRead);
+            int bytesRead = mByteQueue.read(inputCommand, 0, bytesToRead);
+//            mByteQueue.read(inputCommand, 0, bytesToRead);
+//            append(mReceiveBuffer, 0, bytesRead);
         } catch (InterruptedException e) {
         }
+        mBlueHome.processInputCommand(new String(inputCommand));       
     }
 
     @Override

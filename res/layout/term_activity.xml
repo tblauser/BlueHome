@@ -133,7 +133,7 @@
         android:contentDescription="@string/mic"/>
     
     <TextView
-        android:id="@+id/mList"
+        android:id="@+id/debugMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-
+    
     <com.senior.bluehome.EmulatorView android:id="@+id/emulatorView"
 	      android:layout_width="wrap_content"
 	      android:layout_height="wrap_content"
@@ -22,6 +22,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:text="@string/living_room" 
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
@@ -32,6 +35,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="60dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:text="@string/kitchen" 
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
@@ -42,6 +48,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="100dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:text="@string/master_bedroom" 
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
@@ -52,6 +61,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="140dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:text="@string/bedroom1" 
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
@@ -62,7 +74,23 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="180dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:text="@string/bedroom2" 
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/text_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="220dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:text="@string/temperature" 
         android:textAppearance="?android:attr/textAppearanceMedium" />
  
     <ToggleButton
@@ -72,7 +100,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="220dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
         android:checked="true" />
@@ -83,7 +114,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="220dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
         android:checked="true" />
@@ -94,7 +128,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="220dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="90dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
         android:checked="true" />
@@ -105,7 +142,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="220dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="130dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
         android:checked="true" />
@@ -116,19 +156,35 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="220dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="170dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
         android:checked="true" />
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="220dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
     <ImageButton
         android:id="@+id/btnSpeak"
-        android:layout_width="65dip"
-        android:layout_height="65dip"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
         android:layout_marginLeft="220dp"
         android:layout_marginTop="280dp"
         android:paddingBottom="1000dp"
         android:paddingTop="1000dp"
+        android:background="@layout/round_shape"
         android:src="@drawable/mic" 
         android:contentDescription="@string/mic"/>
     
@@ -150,6 +206,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="290dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         android:text="@string/btn_display" />
     
     

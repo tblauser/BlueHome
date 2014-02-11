@@ -128,7 +128,7 @@ public class BlueHome extends Activity {
     private static final String COLOR_KEY = "color";
     private static final String CONTROLKEY_KEY = "controlkey";
 
-    public static final int WHITE = 0xffffffff;
+    public static final int WHITE = 0xFFFFFFFF;
     public static final int BLACK = 0xff000000;
     public static final int BLUE = 0xff344ebd;
 
@@ -162,16 +162,16 @@ public class BlueHome extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ ON CREATE +++");
-
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         readPrefs();
 
         CONTROL_KEY_NAME = getResources().getStringArray(R.array.entries_controlkey_preference);
 
     	mInputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);		
+    	
 		
 //        // Set up the window layout
 //        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -186,12 +186,10 @@ public class BlueHome extends Activity {
 
         
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
 		if (mBluetoothAdapter == null) {
             finishDialogNoBluetooth();
 			return;
-		}
-		
+		}		
         setContentView(R.layout.term_activity);
 
         mEmulatorView = (EmulatorView) findViewById(R.id.emulatorView);
@@ -200,8 +198,8 @@ public class BlueHome extends Activity {
 
         mKeyListener = new TermKeyListener();
 
-        mEmulatorView.setFocusable(true);
-        mEmulatorView.setFocusableInTouchMode(true);
+        mEmulatorView.setFocusable(false);
+        mEmulatorView.setFocusableInTouchMode(false);
         mEmulatorView.requestFocus();
         mEmulatorView.register(mKeyListener);
 
@@ -216,6 +214,9 @@ public class BlueHome extends Activity {
             btnSpeak.setEnabled(false);
 //            btnSpeak.setText("Recognizer not present");
         }
+        TextView textView = (TextView) findViewById(R.id.temperature);
+        textView.setText("--.- ¡F");
+        mInputManager.hideSoftInputFromWindow(mEmulatorView.getWindowToken(), 0);
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ DONE IN ON CREATE +++");
 	}
@@ -339,7 +340,6 @@ public class BlueHome extends Activity {
 		super.onStart();
 		if (DEBUG)
 			Log.e(LOG_TAG, "++ ON START ++");
-		
 		mEnablingBT = false;
 	}
 
@@ -350,7 +350,6 @@ public class BlueHome extends Activity {
 		if (DEBUG) {
 			Log.e(LOG_TAG, "+ ON RESUME +");
 		}
-		
 		if (!mEnablingBT) { // If we are turning on the BT we cannot check if it's enable
 		    if ( (mBluetoothAdapter != null)  && (!mBluetoothAdapter.isEnabled()) ) {
 			
@@ -384,13 +383,14 @@ public class BlueHome extends Activity {
 		    		mSerialService.start();
 		    	}
 		    }
-
+		    
 		    if (mBluetoothAdapter != null) {
 		    	readPrefs();
 		    	updatePrefs();
 
 		    	mEmulatorView.onResume();
 		    }
+		    
 		}
 	}
 
@@ -492,9 +492,8 @@ public class BlueHome extends Activity {
                 		mMenuItemConnect.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
                 		mMenuItemConnect.setTitle(R.string.disconnect);
                 	}
-                	
-                	mInputManager.showSoftInput(mEmulatorView, InputMethodManager.SHOW_IMPLICIT);
-                	
+                	mInputManager.hideSoftInputFromWindow(mEmulatorView.getWindowToken(), 0);
+//                	mInputManager.showSoftInput(mEmulatorView, InputMethodManager.SHOW_IMPLICIT);                	
 //                    mTitle.setText(R.string.title_connected_to);
 //                    mTitle.append(mConnectedDeviceName);
                     break;
@@ -533,9 +532,11 @@ public class BlueHome extends Activity {
 */                
             case MESSAGE_DEVICE_NAME:
                 // save the connected device's name
+            	mInputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                 mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
                 Toast.makeText(getApplicationContext(), "Connected to "
                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                
                 break;
             case MESSAGE_TOAST:
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
@@ -578,7 +579,7 @@ public class BlueHome extends Activity {
                 // Get the BLuetoothDevice object
                 BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
                 // Attempt to connect to the device
-                mSerialService.connect(device);                
+                mSerialService.connect(device);  
             }
             break;
 
@@ -606,24 +607,56 @@ public class BlueHome extends Activity {
     public void processInputCommand(String command) {
         TextView textView = (TextView) findViewById(R.id.debugMessage);
         textView.setText(command);
+        setTemperature(command);
+        return;
+    }
+    
+    public void setTemperature(String temperature) {
+        TextView textView = (TextView) findViewById(R.id.temperature);
+        temperature.concat(" ¡F");
+        textView.setText(temperature);
         return;
     }
     
     private void processVoiceCommand(ArrayList<String> matches) {
-//    	ArrayList<String> keywords = new ArrayList<String>();
-//        for (int i = 0; i<matches.size();i++) {
-//        	String[] parts = matches.get(i).split(" ");
-//        	for (int j = 0; j<parts.length; i++) {
-//        		keywords.add(parts[j]);
-//        	}
-//        }
-            StringBuffer result = new StringBuffer();
-            if (matches.contains("kitchen on"))
-            	toggle_living_room.setChecked(true);
-            else if (matches.contains("kitchen off"))
-            	toggle_living_room.setChecked(false);
+    	StringBuffer result = new StringBuffer();
+        if (matches.contains("living room on")) {
+          	toggle_living_room.setChecked(true);
+        	result.append("Living Room : ").append(toggle_living_room.getText());
+        } else if (matches.contains("living room off")) {
+            toggle_living_room.setChecked(false);
 			result.append("Living Room : ").append(toggle_living_room.getText());
-			Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
+        }
+        if (matches.contains("kitchen on")) {
+          	toggle_kitchen.setChecked(true);
+        	result.append("Living Room : ").append(toggle_kitchen.getText());
+        } else if (matches.contains("kitchen off")) {
+        	toggle_kitchen.setChecked(false);
+			result.append("Living Room : ").append(toggle_kitchen.getText());
+        }
+        if (matches.contains("master bedroom on")) {
+          	toggle_master_bedroom.setChecked(true);
+        	result.append("Living Room : ").append(toggle_master_bedroom.getText());
+        } else if (matches.contains("master bedroom off")) {
+        	toggle_master_bedroom.setChecked(false);
+			result.append("Living Room : ").append(toggle_master_bedroom.getText());
+        }
+        if (matches.contains("bedroom one on")) {
+          	toggle_bedroom1.setChecked(true);
+        	result.append("Living Room : ").append(toggle_bedroom1.getText());
+        } else if (matches.contains("bedroom one off")) {
+        	toggle_bedroom1.setChecked(false);
+			result.append("Living Room : ").append(toggle_bedroom1.getText());
+        }
+        if (matches.contains("bedroom two on")) {
+        	toggle_bedroom2.setChecked(true);
+        	result.append("Living Room : ").append(toggle_bedroom2.getText());
+        } else if (matches.contains("bedroom two off")) {
+        	toggle_bedroom2.setChecked(false);
+			result.append("Living Room : ").append(toggle_bedroom2.getText());
+        }
+		send(String.valueOf(result).getBytes());
+		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
 	}
     
     

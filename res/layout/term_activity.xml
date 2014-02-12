@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/bluehome"
     tools:context=".MainActivity" >
     
     <com.senior.bluehome.EmulatorView android:id="@+id/emulatorView"
@@ -106,6 +107,8 @@
         android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
+        android:background="@layout/round_shape"
+        android:textColor="@android:color/white"
         android:checked="true" />
     <ToggleButton
         android:id="@+id/toggle_kitchen"
@@ -120,6 +123,8 @@
         android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
+        android:background="@layout/round_shape"
+        android:textColor="@android:color/white"
         android:checked="true" />
     <ToggleButton
         android:id="@+id/toggle_master_bedroom"
@@ -134,6 +139,8 @@
         android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
+        android:background="@layout/round_shape"
+        android:textColor="@android:color/white"
         android:checked="true" />
     <ToggleButton
         android:id="@+id/toggle_bedroom1"
@@ -148,6 +155,8 @@
         android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
+        android:background="@layout/round_shape"
+        android:textColor="@android:color/white"
         android:checked="true" />
     <ToggleButton
         android:id="@+id/toggle_bedroom2"
@@ -162,6 +171,8 @@
         android:typeface="serif"
         android:textOn="@string/toggle_on"
         android:textOff="@string/toggle_off"
+        android:background="@layout/round_shape"
+        android:textColor="@android:color/white"
         android:checked="true" />
     <TextView
         android:id="@+id/temperature"
@@ -176,17 +187,19 @@
         android:typeface="serif"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
-    <ImageButton
+    <Button
         android:id="@+id/btnSpeak"
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:layout_marginLeft="220dp"
-        android:layout_marginTop="280dp"
-        android:paddingBottom="1000dp"
-        android:paddingTop="1000dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="350dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:text="@string/voice_command"
         android:background="@layout/round_shape"
-        android:src="@drawable/mic" 
-        android:contentDescription="@string/mic"/>
+        android:textColor="@android:color/white"
+        android:checked="true"/>
     
     <TextView
         android:id="@+id/debugMessage"
@@ -195,7 +208,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="400dp"
+        android:text="Debug Message"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -205,10 +219,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="290dp"
-        android:textSize="22sp"
+        android:layout_marginTop="350dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:typeface="serif"
+        android:background="@layout/round_shape"
+        android:textColor="@android:color/white"
         android:text="@string/btn_display" />
     
     

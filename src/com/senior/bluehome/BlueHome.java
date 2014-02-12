@@ -128,12 +128,12 @@ public class BlueHome extends Activity {
     private static final String COLOR_KEY = "color";
     private static final String CONTROLKEY_KEY = "controlkey";
 
-    public static final int WHITE = 0xFFFFFFFF;
+    public static final int WHITE = 0xFFFFFF;
     public static final int BLACK = 0xff000000;
     public static final int BLUE = 0xff344ebd;
 
     private static final int[][] COLOR_SCHEMES = {
-        {BLACK, WHITE}, {BLACK, WHITE}, {BLACK, WHITE}};
+        {WHITE, WHITE}, {WHITE, WHITE}, {WHITE, WHITE}};
 
     private static final int[] CONTROL_KEY_SCHEMES = {
         KeyEvent.KEYCODE_DPAD_CENTER,
@@ -155,7 +155,7 @@ public class BlueHome extends Activity {
     private ToggleButton toggle_living_room, toggle_kitchen,toggle_master_bedroom;
 	private ToggleButton toggle_bedroom1,toggle_bedroom2;
 	private Button btnDisplay;
-	private ImageButton btnSpeak;
+	private Button btnSpeak;
 	public ListView mList;
     
 	/** Called when the activity is first created. */
@@ -303,7 +303,7 @@ public class BlueHome extends Activity {
 	 
 		});
 		
-		btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
+		btnSpeak = (Button) findViewById(R.id.btnSpeak);
 		btnSpeak.setOnClickListener(new OnClickListener(){
 		@Override
 		public void onClick(View v) {

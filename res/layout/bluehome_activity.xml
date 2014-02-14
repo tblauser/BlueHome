@@ -22,13 +22,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="10dp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:typeface="serif"
         android:text="@string/temperature" 
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-	
+        android:textAppearance="?android:attr/textAppearanceMedium" />	
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
@@ -36,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="230dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="10dp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:typeface="serif"
@@ -57,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dip"
-        android:layout_marginLeft="120dip"        
+        android:layout_marginLeft="130dip"        
         android:padding="5dip" 
         android:background="@layout/round_shape"       
         android:src="@drawable/light_icon" />
@@ -65,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dip"
-        android:layout_marginLeft="30dip"        
+        android:layout_marginLeft="25dip"        
         android:padding="5dip" 
         android:background="@layout/round_shape"       
         android:src="@drawable/fan_icon" />
@@ -73,15 +72,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dip"
-        android:layout_marginLeft="30dip"        
+        android:layout_marginLeft="25dip"        
         android:padding="5dip" 
         android:background="@layout/round_shape"       
         android:src="@drawable/tv_icon" />
-    <ImageButton android:id="@+id/termostat_button"
+    <ImageButton android:id="@+id/thermostat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dip"
-        android:layout_marginLeft="210dip"        
+        android:layout_marginLeft="225dip"        
         android:padding="5dip" 
         android:background="@layout/round_shape"       
         android:src="@drawable/thermostat_icon" />
@@ -89,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
         android:layout_marginTop="350dip"
-        android:layout_marginLeft="120dip"       
+        android:layout_marginLeft="130dip"       
         android:padding="5dip" 
         android:background="@layout/round_shape"       
         android:src="@drawable/mic_icon" />
@@ -97,10 +96,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="250dip"
-        android:layout_marginLeft="210dip"        
+        android:layout_marginLeft="225dip"        
         android:padding="5dip" 
         android:background="@layout/round_shape"       
         android:src="@drawable/lock_icon" />
+   	<ImageButton android:id="@+id/home_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="190dip"
+        android:layout_marginLeft="120dip"        
+        android:padding="5dip" 
+        android:background="@layout/round_shape"    
+        android:src="@drawable/home_icon" />
     
     
 

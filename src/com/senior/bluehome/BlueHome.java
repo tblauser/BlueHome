@@ -3,10 +3,14 @@ package com.senior.bluehome;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.ActivityNotFoundException;
@@ -49,7 +53,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -162,9 +168,11 @@ public class BlueHome extends Activity {
     private MenuItem mMenuItemConnect;
     private ImageButton lights_button, fans_button, tv_button;
     private ImageButton thermostat_button, lock_button, btnSpeak;
-	private TextView kitchen, master_bedroom, bedroom1;
     private ToggleButton toggle_living_room, toggle_kitchen;
     private ToggleButton toggle_master_bedroom, toggle_bedroom1;
+    private static int setTemperature;
+    
+    TimePickerDialog timePickerDialog;
 	
 	public ListView mList;
 	final Context context = this;
@@ -219,6 +227,7 @@ public class BlueHome extends Activity {
         addListenerOnFanButton();
         addListenerOnMicButton();
         addListenerOnLockButton();
+        addListenerOnThermostatButton();
      // Disable button if no recognition service is present
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
@@ -236,6 +245,43 @@ public class BlueHome extends Activity {
 	}
 	
 	
+
+	private void addListenerOnThermostatButton() {
+		thermostat_button = (ImageButton) findViewById(R.id.thermostat_button);
+		thermostat_button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				final AlertDialog.Builder adb = new AlertDialog.Builder(context);
+		        adb.setTitle("Select temperature: ");
+
+		        final NumberPicker np = new NumberPicker(context);
+		        String[] nums = new String[100];
+		        for(int i=0; i<nums.length; i++)
+		               nums[i] = Integer.toString(i);
+		        np.setMinValue(1);
+		        np.setMaxValue(nums.length-1);
+		        np.setWrapSelectorWheel(false);
+		        np.setDisplayedValues(nums);
+		        np.setValue(50);
+		        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+		        
+		        adb.setView(np);
+		        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		          setTemperature = np.getValue()-1;
+		          }
+		        });
+		        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		          public void onClick(DialogInterface dialog, int whichButton) {
+		            // Cancel.
+		          }
+		        });
+		        adb.show();
+			}
+		});
+	}
+
 
 	private void addListenerOnLockButton() {
 		lock_button = (ImageButton) findViewById(R.id.lock_button);

@@ -10,6 +10,8 @@
     <string name="bedroom2">Bedroom 2</string>
     <string name="kitchen">Kitchen</string>
     <string name="voice_command">Voice Command</string>
+    <string name="light">Light</string>
+    <string name="fan">Fan</string>
     <string name="master_bedroom">Master Bedroom</string>
     <string name="bedroom1">Bedoom 1</string>
     <string name="toggle_on">ON</string>

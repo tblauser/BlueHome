@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.ActivityNotFoundException;
@@ -141,7 +142,14 @@ public class BlueHome extends Activity {
         KeyEvent.KEYCODE_ALT_LEFT,
         KeyEvent.KEYCODE_ALT_RIGHT
     };
-	
+    
+    public static final int LIVING_ROOM 	= 0;
+    public static final int KITCHEN 		= 1;
+    public static final int MASTER_BEDROOM 	= 2;
+    public static final int BEDROOM1 		= 3;
+    private static boolean[] LIGHTS = {true, true, true, true};
+    private static boolean[] FANS = {true, true, true, true};
+    
 //    private static final String[] CONTROL_KEY_NAME = {
 //        "Ball", "@", "Left-Alt", "Right-Alt"
 //    };
@@ -152,11 +160,14 @@ public class BlueHome extends Activity {
     private SharedPreferences mPrefs;
 	
     private MenuItem mMenuItemConnect;
-    private ToggleButton toggle_living_room, toggle_kitchen,toggle_master_bedroom;
-	private ToggleButton toggle_bedroom1,toggle_bedroom2;
-	private Button btnDisplay;
-	private Button btnSpeak;
+    private ImageButton lights_button, fans_button, tv_button;
+    private ImageButton thermostat_button, lock_button, btnSpeak;
+	private TextView kitchen, master_bedroom, bedroom1;
+    private ToggleButton toggle_living_room, toggle_kitchen;
+    private ToggleButton toggle_master_bedroom, toggle_bedroom1;
+	
 	public ListView mList;
+	final Context context = this;
     
 	/** Called when the activity is first created. */
 	@Override
@@ -190,7 +201,7 @@ public class BlueHome extends Activity {
             finishDialogNoBluetooth();
 			return;
 		}		
-        setContentView(R.layout.term_activity);
+        setContentView(R.layout.bluehome_activity);
 
         mEmulatorView = (EmulatorView) findViewById(R.id.emulatorView);
 
@@ -205,6 +216,9 @@ public class BlueHome extends Activity {
 
         mSerialService = new BluetoothSerialService(this, mHandlerBT, mEmulatorView);        
         addListenerOnLightButton();
+        addListenerOnFanButton();
+        addListenerOnMicButton();
+        addListenerOnLockButton();
      // Disable button if no recognition service is present
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
@@ -221,98 +235,177 @@ public class BlueHome extends Activity {
 			Log.e(LOG_TAG, "+++ DONE IN ON CREATE +++");
 	}
 	
+	
+
+	private void addListenerOnLockButton() {
+		lock_button = (ImageButton) findViewById(R.id.lock_button);
+		lock_button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				for(int i=0; i<LIGHTS.length; i++) {
+					LIGHTS[i] = false;
+					FANS[i] = false;
+				}
+				StringBuffer result = new StringBuffer();
+				result.append("Turned Off Everything!!");
+				Toast.makeText(BlueHome.this, result.toString(),
+					Toast.LENGTH_SHORT).show();
+			}
+			
+		});
+		
+	}
+
+
+
+	private void addListenerOnFanButton() {
+		fans_button = (ImageButton) findViewById(R.id.fans_button);
+		fans_button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// custom dialog
+				final Dialog dialog = new Dialog(context);
+				dialog.setContentView(R.layout.custom_dialog);
+				dialog.setTitle("Fans ");
+				toggle_living_room = (ToggleButton) dialog.findViewById(R.id.toggle_living_room);
+				toggle_living_room.setChecked(FANS[LIVING_ROOM]);
+				toggle_living_room.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Living Room : ").append(toggle_living_room.getText());
+					   FANS[LIVING_ROOM] = !FANS[LIVING_ROOM];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				toggle_kitchen = (ToggleButton) dialog.findViewById(R.id.toggle_kitchen);
+				toggle_kitchen.setChecked(FANS[KITCHEN]);
+				toggle_kitchen.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Kitchen : ").append(toggle_kitchen.getText());
+					   FANS[KITCHEN] = !FANS[KITCHEN];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				toggle_master_bedroom = (ToggleButton) dialog.findViewById(R.id.toggle_master_bedroom);
+				toggle_master_bedroom.setChecked(FANS[MASTER_BEDROOM]);
+				toggle_master_bedroom.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Master Bedroom : ").append(toggle_master_bedroom.getText());
+					   FANS[MASTER_BEDROOM] = !FANS[MASTER_BEDROOM];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				
+				toggle_bedroom1 = (ToggleButton) dialog.findViewById(R.id.toggle_bedroom1);
+				toggle_bedroom1.setChecked(FANS[BEDROOM1]);
+				toggle_bedroom1.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Bedroom 1 : ").append(toggle_bedroom1.getText());
+					   FANS[BEDROOM1] = !FANS[BEDROOM1];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				dialog.show();
+				
+			}		 
+			
+		});	
+	}
+
 	public void addListenerOnLightButton() {
-//		mList = (ListView) findViewById(R.id.mList);
-		toggle_living_room = (ToggleButton) findViewById(R.id.toggle_living_room);
-		toggle_living_room.setOnClickListener(new OnClickListener() {		 
+		lights_button = (ImageButton) findViewById(R.id.lights_button);
+		lights_button.setOnClickListener(new OnClickListener() {		 
 			@Override
 			public void onClick(View v) {
-			   StringBuffer result = new StringBuffer();
-			   result.append("Living Room : ").append(toggle_living_room.getText());
-			   send(String.valueOf(result).getBytes());
-			   Toast.makeText(BlueHome.this, result.toString(),
-				Toast.LENGTH_SHORT).show();
+				// custom dialog
+				final Dialog dialog = new Dialog(context);
+				dialog.setContentView(R.layout.custom_dialog);
+				dialog.setTitle("Lights");
+				toggle_living_room = (ToggleButton) dialog.findViewById(R.id.toggle_living_room);
+				toggle_living_room.setChecked(LIGHTS[LIVING_ROOM]);
+				toggle_living_room.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Living Room : ").append(toggle_living_room.getText());
+					   LIGHTS[LIVING_ROOM] = !LIGHTS[LIVING_ROOM];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				toggle_kitchen = (ToggleButton) dialog.findViewById(R.id.toggle_kitchen);
+				toggle_kitchen.setChecked(LIGHTS[KITCHEN]);
+				toggle_kitchen.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Kitchen : ").append(toggle_kitchen.getText());
+					   LIGHTS[KITCHEN] = !LIGHTS[KITCHEN];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				toggle_master_bedroom = (ToggleButton) dialog.findViewById(R.id.toggle_master_bedroom);
+				toggle_master_bedroom.setChecked(LIGHTS[MASTER_BEDROOM]);
+				toggle_master_bedroom.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Master Bedroom : ").append(toggle_master_bedroom.getText());
+					   LIGHTS[MASTER_BEDROOM] = !LIGHTS[MASTER_BEDROOM];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				
+				toggle_bedroom1 = (ToggleButton) dialog.findViewById(R.id.toggle_bedroom1);
+				toggle_bedroom1.setChecked(LIGHTS[BEDROOM1]);
+				toggle_bedroom1.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   StringBuffer result = new StringBuffer();
+					   result.append("Bedroom 1 : ").append(toggle_bedroom1.getText());
+					   LIGHTS[BEDROOM1] = !LIGHTS[BEDROOM1];
+					   send(String.valueOf(result).getBytes());
+					   Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+					}
+				});
+				dialog.show();
 			}
-		});
-		
-		toggle_kitchen = (ToggleButton) findViewById(R.id.	toggle_kitchen);
-		toggle_kitchen.setOnClickListener(new OnClickListener() {		 
-			@Override
-			public void onClick(View v) {
-			   StringBuffer result = new StringBuffer();
-			   result.append("Kitchen : ").append(toggle_kitchen.getText());
-			   send(String.valueOf(result).getBytes());
-			   Toast.makeText(BlueHome.this, result.toString(),
-				Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		toggle_master_bedroom = (ToggleButton) findViewById(R.id.toggle_master_bedroom);
-		toggle_master_bedroom.setOnClickListener(new OnClickListener() {		 
-			@Override
-			public void onClick(View v) {
-			   StringBuffer result = new StringBuffer();
-			   result.append("Master Bedroom : ").append(toggle_master_bedroom.getText());
-			   send(String.valueOf(result).getBytes());
-			   Toast.makeText(BlueHome.this, result.toString(),
-				Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		toggle_bedroom1 = (ToggleButton) findViewById(R.id.toggle_bedroom1);
-		toggle_bedroom1.setOnClickListener(new OnClickListener() {		 
-			@Override
-			public void onClick(View v) {
-			   StringBuffer result = new StringBuffer();
-			   result.append("Bedroom 1 : ").append(toggle_bedroom1.getText());
-			   send(String.valueOf(result).getBytes());
-			   Toast.makeText(BlueHome.this, result.toString(),
-				Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		toggle_bedroom2 = (ToggleButton) findViewById(R.id.toggle_bedroom2);
-		toggle_bedroom2.setOnClickListener(new OnClickListener() {		 
-			@Override
-			public void onClick(View v) {
-			   StringBuffer result = new StringBuffer();
-			   result.append("Bedroom 2 : ").append(toggle_bedroom2.getText());
-			   send(String.valueOf(result).getBytes());
-			   Toast.makeText(BlueHome.this, result.toString(),
-				Toast.LENGTH_SHORT).show();
-			}
-		});
-		
-		btnDisplay = (Button) findViewById(R.id.btnDisplay);
-		btnDisplay.setOnClickListener(new OnClickListener() {
-	 
-			@Override
-			public void onClick(View v) {
-	 
-			   StringBuffer result = new StringBuffer();
-			   result.append("Living Room : ").append(toggle_living_room.getText());
-			   result.append("\nKitchen : ").append( toggle_kitchen.getText());
-			   result.append("\nMaster Bedroom : ").append(toggle_master_bedroom.getText());
-			   result.append("\nBedroom 1 : ").append(toggle_bedroom1.getText());
-			   result.append("\nBedroom 2 : ").append(toggle_bedroom2.getText());
-	 
-			   Toast.makeText(BlueHome.this, result.toString(),
-				Toast.LENGTH_SHORT).show();
-	 
-			}
-	 
-		});
-		
-		btnSpeak = (Button) findViewById(R.id.btnSpeak);
+		});	
+	}
+
+	private void addListenerOnMicButton() {
+		btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
 		btnSpeak.setOnClickListener(new OnClickListener(){
 		@Override
 		public void onClick(View v) {
 			startVoiceRecognitionActivity();
- 
 			}
-		});
-	  }
-
+		});	
+	}
+	
 	public void startVoiceRecognitionActivity() {
 		Intent intent = new Intent(
 				RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -619,44 +712,6 @@ public class BlueHome extends Activity {
     }
     
     private void processVoiceCommand(ArrayList<String> matches) {
-    	StringBuffer result = new StringBuffer();
-        if (matches.contains("living room on")) {
-          	toggle_living_room.setChecked(true);
-        	result.append("Living Room : ").append(toggle_living_room.getText());
-        } else if (matches.contains("living room off")) {
-            toggle_living_room.setChecked(false);
-			result.append("Living Room : ").append(toggle_living_room.getText());
-        }
-        if (matches.contains("kitchen on")) {
-          	toggle_kitchen.setChecked(true);
-        	result.append("Living Room : ").append(toggle_kitchen.getText());
-        } else if (matches.contains("kitchen off")) {
-        	toggle_kitchen.setChecked(false);
-			result.append("Living Room : ").append(toggle_kitchen.getText());
-        }
-        if (matches.contains("master bedroom on")) {
-          	toggle_master_bedroom.setChecked(true);
-        	result.append("Living Room : ").append(toggle_master_bedroom.getText());
-        } else if (matches.contains("master bedroom off")) {
-        	toggle_master_bedroom.setChecked(false);
-			result.append("Living Room : ").append(toggle_master_bedroom.getText());
-        }
-        if (matches.contains("bedroom one on")) {
-          	toggle_bedroom1.setChecked(true);
-        	result.append("Living Room : ").append(toggle_bedroom1.getText());
-        } else if (matches.contains("bedroom one off")) {
-        	toggle_bedroom1.setChecked(false);
-			result.append("Living Room : ").append(toggle_bedroom1.getText());
-        }
-        if (matches.contains("bedroom two on")) {
-        	toggle_bedroom2.setChecked(true);
-        	result.append("Living Room : ").append(toggle_bedroom2.getText());
-        } else if (matches.contains("bedroom two off")) {
-        	toggle_bedroom2.setChecked(false);
-			result.append("Living Room : ").append(toggle_bedroom2.getText());
-        }
-		send(String.valueOf(result).getBytes());
-		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
 	}
     
     

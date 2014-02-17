@@ -36,6 +36,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -156,6 +157,9 @@ public class BlueHome extends Activity {
     private static boolean[] LIGHTS = {true, true, true, true};
     private static boolean[] FANS = {true, true, true, true};
     
+    public static final int MIN_TEMPERATURE = 50;
+    public static final int MAX_TEMPERATURE = 100;
+    
 //    private static final String[] CONTROL_KEY_NAME = {
 //        "Ball", "@", "Left-Alt", "Right-Alt"
 //    };
@@ -170,7 +174,7 @@ public class BlueHome extends Activity {
     private ImageButton thermostat_button, lock_button, btnSpeak;
     private ToggleButton toggle_living_room, toggle_kitchen;
     private ToggleButton toggle_master_bedroom, toggle_bedroom1;
-    private static int setTemperature;
+    private static int setTemperature = 75;
     
     TimePickerDialog timePickerDialog;
 	
@@ -254,22 +258,26 @@ public class BlueHome extends Activity {
 			public void onClick(View v) {
 				final AlertDialog.Builder adb = new AlertDialog.Builder(context);
 		        adb.setTitle("Select temperature: ");
-
+		        adb.setMessage("Current Set Temperature: " + setTemperature + " ¡F");
+		        
 		        final NumberPicker np = new NumberPicker(context);
-		        String[] nums = new String[100];
-		        for(int i=0; i<nums.length; i++)
-		               nums[i] = Integer.toString(i);
-		        np.setMinValue(1);
-		        np.setMaxValue(nums.length-1);
+		        String[] nums = new String[MAX_TEMPERATURE-MIN_TEMPERATURE+1];
+		        for(int i=0 ; i<=(MAX_TEMPERATURE-MIN_TEMPERATURE); i++)
+		               nums[i] = Integer.toString(i+MIN_TEMPERATURE);
+		        np.setMinValue(MIN_TEMPERATURE);
+		        np.setMaxValue(MAX_TEMPERATURE);
 		        np.setWrapSelectorWheel(false);
 		        np.setDisplayedValues(nums);
-		        np.setValue(50);
+		        np.setValue(setTemperature);
 		        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 		        
 		        adb.setView(np);
 		        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 		        public void onClick(DialogInterface dialog, int whichButton) {
-		          setTemperature = np.getValue()-1;
+		          setTemperature = np.getValue();
+		          StringBuffer result = new StringBuffer();
+		          result.append("Set : ").append(setTemperature);
+		          send(String.valueOf(result).getBytes());
 		          }
 		        });
 		        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -289,21 +297,33 @@ public class BlueHome extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				for(int i=0; i<LIGHTS.length; i++) {
-					LIGHTS[i] = false;
-					FANS[i] = false;
-				}
-				StringBuffer result = new StringBuffer();
-				result.append("Turned Off Everything!!");
-				Toast.makeText(BlueHome.this, result.toString(),
-					Toast.LENGTH_SHORT).show();
+				final AlertDialog.Builder adb = new AlertDialog.Builder(context);
+		        adb.setTitle("Confirm");
+
+		        adb.setMessage("Are you sure you want to turn off everything?");
+		        adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+					for(int i=0; i<LIGHTS.length; i++) {
+						LIGHTS[i] = false;
+						FANS[i] = false;
+					}
+					StringBuffer result = new StringBuffer();
+					result.append("Turned Off Everything!!");
+					Toast.makeText(BlueHome.this, result.toString(),
+						Toast.LENGTH_SHORT).show();
+		          }
+		        });
+		        adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+		          public void onClick(DialogInterface dialog, int whichButton) {
+		            // Cancel.
+		          }
+		        });
+		        adb.show();
 			}
 			
 		});
 		
 	}
-
-
 
 	private void addListenerOnFanButton() {
 		fans_button = (ImageButton) findViewById(R.id.fans_button);

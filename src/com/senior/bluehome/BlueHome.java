@@ -341,7 +341,7 @@ public class BlueHome extends Activity {
 					@Override
 					public void onClick(View v) {
 					   StringBuffer result = new StringBuffer();
-					   result.append("Living Room : ").append(toggle_living_room.getText());
+					   result.append("Living Room Fan : ").append(toggle_living_room.getText());
 					   FANS[LIVING_ROOM] = !FANS[LIVING_ROOM];
 					   send(String.valueOf(result).getBytes());
 					   Toast.makeText(BlueHome.this, result.toString(),
@@ -354,7 +354,7 @@ public class BlueHome extends Activity {
 					@Override
 					public void onClick(View v) {
 					   StringBuffer result = new StringBuffer();
-					   result.append("Kitchen : ").append(toggle_kitchen.getText());
+					   result.append("Kitchen Fan : ").append(toggle_kitchen.getText());
 					   FANS[KITCHEN] = !FANS[KITCHEN];
 					   send(String.valueOf(result).getBytes());
 					   Toast.makeText(BlueHome.this, result.toString(),
@@ -367,7 +367,7 @@ public class BlueHome extends Activity {
 					@Override
 					public void onClick(View v) {
 					   StringBuffer result = new StringBuffer();
-					   result.append("Master Bedroom : ").append(toggle_master_bedroom.getText());
+					   result.append("Master Bedroom Fan : ").append(toggle_master_bedroom.getText());
 					   FANS[MASTER_BEDROOM] = !FANS[MASTER_BEDROOM];
 					   send(String.valueOf(result).getBytes());
 					   Toast.makeText(BlueHome.this, result.toString(),
@@ -381,7 +381,7 @@ public class BlueHome extends Activity {
 					@Override
 					public void onClick(View v) {
 					   StringBuffer result = new StringBuffer();
-					   result.append("Bedroom 1 : ").append(toggle_bedroom1.getText());
+					   result.append("Bedroom 1 Fan : ").append(toggle_bedroom1.getText());
 					   FANS[BEDROOM1] = !FANS[BEDROOM1];
 					   send(String.valueOf(result).getBytes());
 					   Toast.makeText(BlueHome.this, result.toString(),

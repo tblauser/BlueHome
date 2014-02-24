@@ -156,6 +156,7 @@ public class BlueHome extends Activity {
     public static final int BEDROOM1 		= 3;
     private static boolean[] LIGHTS = {true, true, true, true};
     private static boolean[] FANS = {true, true, true, true};
+    private static String[] ROOMS = {"Living Room", "Kitchen", "Master Bedroom", "Bedroom 1"};
     
     public static final int MIN_TEMPERATURE = 50;
     public static final int MAX_TEMPERATURE = 100;
@@ -460,6 +461,22 @@ public class BlueHome extends Activity {
 				dialog.show();
 			}
 		});	
+	}
+	
+	private void lightButtonPressed(int button) {
+		StringBuffer result = new StringBuffer();
+		result.append(ROOMS[button]).append(" : ").append(toggle_bedroom1.getText());
+		LIGHTS[button] = !LIGHTS[button];
+		send(String.valueOf(result).getBytes());
+		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
+	}
+	
+	private void fanButtonPressed(int button) {
+		StringBuffer result = new StringBuffer();
+		result.append(ROOMS[button]).append(" Fan : ").append(toggle_bedroom1.getText());
+		FANS[button] = !FANS[button];
+		send(String.valueOf(result).getBytes());
+		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
 	}
 
 	private void addListenerOnMicButton() {
@@ -770,7 +787,7 @@ public class BlueHome extends Activity {
         return;
     }
     
-    public void setTemperature(String temperature) {
+    private void setTemperature(String temperature) {
         TextView textView = (TextView) findViewById(R.id.temperature);
         temperature.concat(" ¡F");
         textView.setText(temperature);
@@ -778,6 +795,38 @@ public class BlueHome extends Activity {
     }
     
     private void processVoiceCommand(ArrayList<String> matches) {
+    	if(matches.contains("Living Room On") && LIGHTS[LIVING_ROOM] == false)
+    		lightButtonPressed(LIVING_ROOM);
+    	else if (matches.contains("Living Room Off") && LIGHTS[LIVING_ROOM] == true)
+    		lightButtonPressed(LIVING_ROOM);
+    	else if(matches.contains("Kitchen On") && LIGHTS[KITCHEN] == false)
+    		lightButtonPressed(KITCHEN);
+    	else if (matches.contains("Kitchen Off") && LIGHTS[KITCHEN] == true)
+    		lightButtonPressed(KITCHEN);
+    	else if(matches.contains("Master Bedroom On") && LIGHTS[MASTER_BEDROOM] == false)
+    		lightButtonPressed(MASTER_BEDROOM);
+    	else if (matches.contains("Master Bedroom Off") && LIGHTS[MASTER_BEDROOM] == true)
+    		lightButtonPressed(MASTER_BEDROOM);
+    	else if(matches.contains("Bedroom 1 On") && LIGHTS[BEDROOM1] == false)
+    		lightButtonPressed(BEDROOM1);
+    	else if (matches.contains("Bedroom 1 Off") && LIGHTS[BEDROOM1] == true)
+    		lightButtonPressed(BEDROOM1);
+    	else if(matches.contains("Living Room Fan On") && FANS[LIVING_ROOM] == false)
+    		fanButtonPressed(LIVING_ROOM);
+    	else if (matches.contains("Living Room Fan Off") && FANS[LIVING_ROOM] == true)
+    		fanButtonPressed(LIVING_ROOM);
+    	else if(matches.contains("Kitchen Fan On") && FANS[KITCHEN] == false)
+    		fanButtonPressed(KITCHEN);
+    	else if (matches.contains("Kitchen Fan Off") && FANS[KITCHEN] == true)
+    		fanButtonPressed(KITCHEN);
+    	else if(matches.contains("Master Bedroom Fan On") && FANS[MASTER_BEDROOM] == false)
+    		fanButtonPressed(MASTER_BEDROOM);
+    	else if (matches.contains("Master Bedroom Fan Off") && FANS[MASTER_BEDROOM] == true)
+    		fanButtonPressed(MASTER_BEDROOM);
+    	else if(matches.contains("Bedroom 1 Fan On") && FANS[BEDROOM1] == false)
+    		fanButtonPressed(BEDROOM1);
+    	else if (matches.contains("Bedroom 1 Fan Off") && FANS[BEDROOM1] == true)
+    		fanButtonPressed(BEDROOM1);
 	}
     
     

@@ -244,7 +244,7 @@ public class BlueHome extends Activity {
         }
         TextView textView = (TextView) findViewById(R.id.temperature);
         textView.setText("--.- ¡F");
-        mInputManager.hideSoftInputFromWindow(mEmulatorView.getWindowToken(), 0);
+//        mInputManager.hideSoftInputFromWindow(mEmulatorView.getWindowToken(), 0);
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ DONE IN ON CREATE +++");
 	}
@@ -341,12 +341,7 @@ public class BlueHome extends Activity {
 				toggle_living_room.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Living Room Fan : ").append(toggle_living_room.getText());
-					   FANS[LIVING_ROOM] = !FANS[LIVING_ROOM];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+					   fanButtonPressed(LIVING_ROOM);
 					}
 				});
 				toggle_kitchen = (ToggleButton) dialog.findViewById(R.id.toggle_kitchen);
@@ -354,12 +349,7 @@ public class BlueHome extends Activity {
 				toggle_kitchen.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Kitchen Fan : ").append(toggle_kitchen.getText());
-					   FANS[KITCHEN] = !FANS[KITCHEN];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+						fanButtonPressed(KITCHEN);
 					}
 				});
 				toggle_master_bedroom = (ToggleButton) dialog.findViewById(R.id.toggle_master_bedroom);
@@ -367,12 +357,7 @@ public class BlueHome extends Activity {
 				toggle_master_bedroom.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Master Bedroom Fan : ").append(toggle_master_bedroom.getText());
-					   FANS[MASTER_BEDROOM] = !FANS[MASTER_BEDROOM];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+						fanButtonPressed(MASTER_BEDROOM);
 					}
 				});
 				
@@ -381,12 +366,7 @@ public class BlueHome extends Activity {
 				toggle_bedroom1.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Bedroom 1 Fan : ").append(toggle_bedroom1.getText());
-					   FANS[BEDROOM1] = !FANS[BEDROOM1];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+						fanButtonPressed(BEDROOM1);
 					}
 				});
 				dialog.show();
@@ -410,12 +390,7 @@ public class BlueHome extends Activity {
 				toggle_living_room.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Living Room : ").append(toggle_living_room.getText());
-					   LIGHTS[LIVING_ROOM] = !LIGHTS[LIVING_ROOM];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+					   lightButtonPressed(LIVING_ROOM);
 					}
 				});
 				toggle_kitchen = (ToggleButton) dialog.findViewById(R.id.toggle_kitchen);
@@ -423,12 +398,7 @@ public class BlueHome extends Activity {
 				toggle_kitchen.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Kitchen : ").append(toggle_kitchen.getText());
-					   LIGHTS[KITCHEN] = !LIGHTS[KITCHEN];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+						lightButtonPressed(KITCHEN);
 					}
 				});
 				toggle_master_bedroom = (ToggleButton) dialog.findViewById(R.id.toggle_master_bedroom);
@@ -436,12 +406,7 @@ public class BlueHome extends Activity {
 				toggle_master_bedroom.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Master Bedroom : ").append(toggle_master_bedroom.getText());
-					   LIGHTS[MASTER_BEDROOM] = !LIGHTS[MASTER_BEDROOM];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+						lightButtonPressed(MASTER_BEDROOM);
 					}
 				});
 				
@@ -450,12 +415,7 @@ public class BlueHome extends Activity {
 				toggle_bedroom1.setOnClickListener(new OnClickListener() {		 
 					@Override
 					public void onClick(View v) {
-					   StringBuffer result = new StringBuffer();
-					   result.append("Bedroom 1 : ").append(toggle_bedroom1.getText());
-					   LIGHTS[BEDROOM1] = !LIGHTS[BEDROOM1];
-					   send(String.valueOf(result).getBytes());
-					   Toast.makeText(BlueHome.this, result.toString(),
-						Toast.LENGTH_SHORT).show();
+						lightButtonPressed(BEDROOM1);
 					}
 				});
 				dialog.show();
@@ -465,16 +425,22 @@ public class BlueHome extends Activity {
 	
 	private void lightButtonPressed(int button) {
 		StringBuffer result = new StringBuffer();
-		result.append(ROOMS[button]).append(" : ").append(toggle_bedroom1.getText());
 		LIGHTS[button] = !LIGHTS[button];
+		if (LIGHTS[button] == true)
+			result.append(ROOMS[button]).append(" : ON");
+		else
+			result.append(ROOMS[button]).append(" : OFF");
 		send(String.valueOf(result).getBytes());
 		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
 	}
 	
 	private void fanButtonPressed(int button) {
 		StringBuffer result = new StringBuffer();
-		result.append(ROOMS[button]).append(" Fan : ").append(toggle_bedroom1.getText());
 		FANS[button] = !FANS[button];
+		if (FANS[button] == true)
+			result.append(ROOMS[button]).append(" Fan: ON");
+		else
+			result.append(ROOMS[button]).append(" Fan : OFF");
 		send(String.valueOf(result).getBytes());
 		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
 	}
@@ -795,37 +761,37 @@ public class BlueHome extends Activity {
     }
     
     private void processVoiceCommand(ArrayList<String> matches) {
-    	if(matches.contains("Living Room On") && LIGHTS[LIVING_ROOM] == false)
+    	if(matches.contains("living room on") && LIGHTS[LIVING_ROOM] == false)
     		lightButtonPressed(LIVING_ROOM);
-    	else if (matches.contains("Living Room Off") && LIGHTS[LIVING_ROOM] == true)
+    	else if (matches.contains("living room off") && LIGHTS[LIVING_ROOM] == true)
     		lightButtonPressed(LIVING_ROOM);
-    	else if(matches.contains("Kitchen On") && LIGHTS[KITCHEN] == false)
+    	else if(matches.contains("kitchen on") && LIGHTS[KITCHEN] == false)
     		lightButtonPressed(KITCHEN);
-    	else if (matches.contains("Kitchen Off") && LIGHTS[KITCHEN] == true)
+    	else if (matches.contains("kitchen off") && LIGHTS[KITCHEN] == true)
     		lightButtonPressed(KITCHEN);
-    	else if(matches.contains("Master Bedroom On") && LIGHTS[MASTER_BEDROOM] == false)
+    	else if(matches.contains("master bedroom on") && LIGHTS[MASTER_BEDROOM] == false)
     		lightButtonPressed(MASTER_BEDROOM);
-    	else if (matches.contains("Master Bedroom Off") && LIGHTS[MASTER_BEDROOM] == true)
+    	else if (matches.contains("master bedroom off") && LIGHTS[MASTER_BEDROOM] == true)
     		lightButtonPressed(MASTER_BEDROOM);
-    	else if(matches.contains("Bedroom 1 On") && LIGHTS[BEDROOM1] == false)
+    	else if(matches.contains("bedroom one on") && LIGHTS[BEDROOM1] == false)
     		lightButtonPressed(BEDROOM1);
-    	else if (matches.contains("Bedroom 1 Off") && LIGHTS[BEDROOM1] == true)
+    	else if (matches.contains("bedroom one off") && LIGHTS[BEDROOM1] == true)
     		lightButtonPressed(BEDROOM1);
-    	else if(matches.contains("Living Room Fan On") && FANS[LIVING_ROOM] == false)
+    	else if(matches.contains("living room fan on") && FANS[LIVING_ROOM] == false)
     		fanButtonPressed(LIVING_ROOM);
-    	else if (matches.contains("Living Room Fan Off") && FANS[LIVING_ROOM] == true)
+    	else if (matches.contains("living room fan off") && FANS[LIVING_ROOM] == true)
     		fanButtonPressed(LIVING_ROOM);
-    	else if(matches.contains("Kitchen Fan On") && FANS[KITCHEN] == false)
+    	else if(matches.contains("kitchen fan on") && FANS[KITCHEN] == false)
     		fanButtonPressed(KITCHEN);
-    	else if (matches.contains("Kitchen Fan Off") && FANS[KITCHEN] == true)
+    	else if (matches.contains("kitchen fan off") && FANS[KITCHEN] == true)
     		fanButtonPressed(KITCHEN);
-    	else if(matches.contains("Master Bedroom Fan On") && FANS[MASTER_BEDROOM] == false)
+    	else if(matches.contains("master bedroom fan on") && FANS[MASTER_BEDROOM] == false)
     		fanButtonPressed(MASTER_BEDROOM);
-    	else if (matches.contains("Master Bedroom Fan Off") && FANS[MASTER_BEDROOM] == true)
+    	else if (matches.contains("master bedroom fan off") && FANS[MASTER_BEDROOM] == true)
     		fanButtonPressed(MASTER_BEDROOM);
-    	else if(matches.contains("Bedroom 1 Fan On") && FANS[BEDROOM1] == false)
+    	else if(matches.contains("bedroom one fan on") && FANS[BEDROOM1] == false)
     		fanButtonPressed(BEDROOM1);
-    	else if (matches.contains("Bedroom 1 Fan Off") && FANS[BEDROOM1] == true)
+    	else if (matches.contains("bedroom one fan off") && FANS[BEDROOM1] == true)
     		fanButtonPressed(BEDROOM1);
 	}
     

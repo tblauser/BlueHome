@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">BlueHome</string>
+    <string name="home_page">Home Page</string>
     <string name="home_controls">Home Control</string>
     <string name="media_player">Media Player</string>
     <string name="action_settings">Settings</string>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BlueTerm</string>
+    <string name="app_name">BlueHome</string>
+    <string name="home_page">Home Page</string>
 
 	<string name="alert_dialog_no_bt">El bluetooth debe estar activado para poder usar esta aplicación.</string>
 	<string name="alert_dialog_yes">Si</string>

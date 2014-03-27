@@ -3,13 +3,10 @@ package com.senior.bluehome;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -36,7 +33,6 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,12 +47,10 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -157,6 +151,7 @@ public class BlueHome extends Activity {
     private static boolean[] LIGHTS = {true, true, true, true};
     private static boolean[] FANS = {true, true, true, true};
     private static String[] ROOMS = {"Living Room", "Kitchen", "Master Bedroom", "Bedroom 1"};
+    private static boolean[] TV = {true};
     
     public static final int MIN_TEMPERATURE = 50;
     public static final int MAX_TEMPERATURE = 100;
@@ -171,7 +166,7 @@ public class BlueHome extends Activity {
     private SharedPreferences mPrefs;
 	
     private MenuItem mMenuItemConnect;
-    private ImageButton lights_button, fans_button, tv_button;
+    private ImageButton bluetooth_button, lights_button, fans_button, tv_button;
     private ImageButton thermostat_button, lock_button, btnSpeak;
     private ToggleButton toggle_living_room, toggle_kitchen;
     private ToggleButton toggle_master_bedroom, toggle_bedroom1;
@@ -233,6 +228,8 @@ public class BlueHome extends Activity {
         addListenerOnMicButton();
         addListenerOnLockButton();
         addListenerOnThermostatButton();
+        addListenerOnTVButton();
+        addListenerOnBluetoothButton();
      // Disable button if no recognition service is present
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
@@ -376,7 +373,49 @@ public class BlueHome extends Activity {
 		});	
 	}
 
-	public void addListenerOnLightButton() {
+	private void addListenerOnTVButton() {
+		tv_button = (ImageButton) findViewById(R.id.tv_button);
+		tv_button.setOnClickListener(new OnClickListener() {		 
+			@Override
+			public void onClick(View v) {
+				// custom dialog
+				final Dialog dialog = new Dialog(context);
+				dialog.setContentView(R.layout.custom_tv_dialog);
+				dialog.setTitle("TV");
+				toggle_living_room = (ToggleButton) dialog.findViewById(R.id.toggle_living_room);
+				toggle_living_room.setChecked(TV[LIVING_ROOM]);
+				toggle_living_room.setOnClickListener(new OnClickListener() {		 
+					@Override
+					public void onClick(View v) {
+					   tvButtonPressed(LIVING_ROOM);
+					}
+				});
+				
+				dialog.show();
+			}
+		});	
+	}
+	
+	private void addListenerOnBluetoothButton() {
+		bluetooth_button = (ImageButton) findViewById(R.id.bluetooth_button);
+		bluetooth_button.setOnClickListener(new OnClickListener() {		 
+			@Override
+			public void onClick(View v) {
+				if (getConnectionState() == BluetoothSerialService.STATE_NONE) {
+	        		// Launch the DeviceListActivity to see devices and do scan
+	        		Intent serverIntent = new Intent(BlueHome.this, DeviceListActivity.class);
+	        		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+	        	}
+	        	else
+	            	if (getConnectionState() == BluetoothSerialService.STATE_CONNECTED) {
+	            		mSerialService.stop();
+			    		mSerialService.start();
+	            	}
+			}
+		});	
+	}
+	
+	private void addListenerOnLightButton() {
 		lights_button = (ImageButton) findViewById(R.id.lights_button);
 		lights_button.setOnClickListener(new OnClickListener() {		 
 			@Override
@@ -430,6 +469,17 @@ public class BlueHome extends Activity {
 			result.append(ROOMS[button]).append(" : ON");
 		else
 			result.append(ROOMS[button]).append(" : OFF");
+		send(String.valueOf(result).getBytes());
+		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
+	}
+	
+	private void tvButtonPressed(int button) {
+		StringBuffer result = new StringBuffer();
+		TV[button] = !TV[button];
+		if (TV[button] == true)
+			result.append("TV : ON");
+		else
+			result.append("TV : OFF");
 		send(String.valueOf(result).getBytes());
 		Toast.makeText(BlueHome.this, result.toString(), Toast.LENGTH_SHORT).show();
 	}
@@ -494,28 +544,28 @@ public class BlueHome extends Activity {
 		}
 		if (!mEnablingBT) { // If we are turning on the BT we cannot check if it's enable
 		    if ( (mBluetoothAdapter != null)  && (!mBluetoothAdapter.isEnabled()) ) {
-			
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.alert_dialog_turn_on_bt)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(R.string.alert_dialog_warning_title)
-                    .setCancelable( false )
-                    .setPositiveButton(R.string.alert_dialog_yes, new DialogInterface.OnClickListener() {
-                    	@Override
-						public void onClick(DialogInterface dialog, int id) {
-                    		mEnablingBT = true;
-                    		Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    		startActivityForResult(enableIntent, REQUEST_ENABLE_BT);			
-                    	}
-                    })
-                    .setNegativeButton(R.string.alert_dialog_no, new DialogInterface.OnClickListener() {
-                    	@Override
-						public void onClick(DialogInterface dialog, int id) {
-                    		finishDialogNoBluetooth();            	
-                    	}
-                    });
-                AlertDialog alert = builder.create();
-                alert.show();
+		    	finishDialogNoBluetooth();   
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setMessage(R.string.alert_dialog_turn_on_bt)
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .setTitle(R.string.alert_dialog_warning_title)
+//                    .setCancelable( false )
+//                    .setPositiveButton(R.string.alert_dialog_yes, new DialogInterface.OnClickListener() {
+//                    	@Override
+//						public void onClick(DialogInterface dialog, int id) {
+//                    		mEnablingBT = true;
+//                    		Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//                    		startActivityForResult(enableIntent, REQUEST_ENABLE_BT);			
+//                    	}
+//                    })
+//                    .setNegativeButton(R.string.alert_dialog_no, new DialogInterface.OnClickListener() {
+//                    	@Override
+//						public void onClick(DialogInterface dialog, int id) {
+//                    		finishDialogNoBluetooth();            	
+//                    	}
+//                    });
+//                AlertDialog alert = builder.create();
+//                alert.show();
 		    }		
 		
 		    if (mSerialService != null) {
@@ -652,7 +702,8 @@ public class BlueHome extends Activity {
                 	}
 
             		mInputManager.hideSoftInputFromWindow(mEmulatorView.getWindowToken(), 0);
-                	
+            		TextView textView = (TextView) findViewById(R.id.bluetoothStatus);
+                    textView.setText("Not Connected");
 //                    mTitle.setText(R.string.title_not_connected);
 
                     break;
@@ -678,7 +729,8 @@ public class BlueHome extends Activity {
                 mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
                 Toast.makeText(getApplicationContext(), "Connected to "
                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                
+                TextView textView = (TextView) findViewById(R.id.bluetoothStatus);
+                textView.setText("  Connected");
                 break;
             case MESSAGE_TOAST:
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
@@ -747,16 +799,15 @@ public class BlueHome extends Activity {
     }
     
     public void processInputCommand(String command) {
-        TextView textView = (TextView) findViewById(R.id.debugMessage);
-        textView.setText(command);
         setTemperature(command);
         return;
     }
     
     private void setTemperature(String temperature) {
         TextView textView = (TextView) findViewById(R.id.temperature);
-        temperature.concat(" ¡F");
-        textView.setText(temperature);
+        StringBuffer result = new StringBuffer();
+        result.append(temperature).append(" ¡F");
+        textView.setText(new String(result));
         return;
     }
     
@@ -793,6 +844,10 @@ public class BlueHome extends Activity {
     		fanButtonPressed(BEDROOM1);
     	else if (matches.contains("bedroom one fan off") && FANS[BEDROOM1] == true)
     		fanButtonPressed(BEDROOM1);
+    	else if (matches.contains("TV on") && TV[LIVING_ROOM] == false)
+    		tvButtonPressed(LIVING_ROOM);
+    	else if (matches.contains("TV off") && TV[LIVING_ROOM] == true)
+    		tvButtonPressed(LIVING_ROOM);
 	}
     
     
@@ -901,32 +956,28 @@ public class BlueHome extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-        mMenuItemConnect = menu.getItem(0);
+//        mMenuItemConnect = menu.getItem(0);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.connect:
-        	
-        	if (getConnectionState() == BluetoothSerialService.STATE_NONE) {
-        		// Launch the DeviceListActivity to see devices and do scan
-        		Intent serverIntent = new Intent(this, DeviceListActivity.class);
-        		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-        	}
-        	else
-            	if (getConnectionState() == BluetoothSerialService.STATE_CONNECTED) {
-            		mSerialService.stop();
-		    		mSerialService.start();
-            	}
-            return true;
-        case R.id.preferences:
-        	doPreferences();
-            return true;
-        case R.id.menu_special_keys:
-            doDocumentKeys();
-            return true;
+        case R.id.home:
+        	return super.onOptionsItemSelected(item);
+//        case R.id.connect:
+//        	
+//        	if (getConnectionState() == BluetoothSerialService.STATE_NONE) {
+//        		// Launch the DeviceListActivity to see devices and do scan
+//        		Intent serverIntent = new Intent(this, DeviceListActivity.class);
+//        		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+//        	}
+//        	else
+//            	if (getConnectionState() == BluetoothSerialService.STATE_CONNECTED) {
+//            		mSerialService.stop();
+//		    		mSerialService.start();
+//            	}
+//            return true;
         case R.id.media_player:
             startActivity(new Intent(this, MediaPlayerActivity.class));
             return true;

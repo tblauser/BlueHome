@@ -1,22 +1,22 @@
 package com.senior.bluehome;
 	
 	import java.io.IOException;
-	import java.util.ArrayList;
-	import java.util.HashMap;
-	import java.util.Random;
-	import android.app.Activity;
-	import android.content.Intent;
-	import android.media.*;
-	import android.media.MediaPlayer.OnCompletionListener;
-	import android.os.Bundle;
-	import android.os.Handler;
-	import android.view.Menu;
-	import android.view.MenuItem;
-	import android.view.View;
-	import android.widget.ImageButton;
-	import android.widget.SeekBar;
-	import android.widget.TextView;
-	import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import android.app.Activity;
+import android.content.Intent;
+import android.media.*;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 	public class MediaPlayerActivity extends Activity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
@@ -263,22 +263,19 @@ package com.senior.bluehome;
 		}
 
 		
-//		@Override
-//		public boolean onOptionsItemSelected(MenuItem item) {
-//		    // Handle presses on the action bar items
-//		    switch (item.getItemId()) {
-//		        case R.id.home_controls:
-//		        	startActivity(new Intent(this, MainActivity.class));
-//		            return true;
-//		        case R.id.media_player:
-//		        	return super.onOptionsItemSelected(item);
-//		        case R.id.action_settings:
-//		            startActivity(new Intent(this, Settings.class));
-//		            return true;
-//		        default:
-//		            return super.onOptionsItemSelected(item);
-//		    }
-//		}
+		@Override
+		public boolean onOptionsItemSelected(MenuItem item) {
+		    // Handle presses on the action bar items
+		    switch (item.getItemId()) {
+		        case R.id.home:
+		        	startActivity(new Intent(this, BlueHome.class));
+		            return true;
+		        case R.id.media_player:
+		        	return super.onOptionsItemSelected(item);
+		        default:
+		            return super.onOptionsItemSelected(item);
+		    }
+		}
 
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {

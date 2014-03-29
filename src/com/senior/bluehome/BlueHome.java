@@ -488,7 +488,7 @@ public class BlueHome extends Activity {
 		StringBuffer result = new StringBuffer();
 		FANS[button] = !FANS[button];
 		if (FANS[button] == true)
-			result.append(ROOMS[button]).append(" Fan: ON");
+			result.append(ROOMS[button]).append(" Fan : ON");
 		else
 			result.append(ROOMS[button]).append(" Fan : OFF");
 		send(String.valueOf(result).getBytes());

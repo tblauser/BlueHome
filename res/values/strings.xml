@@ -29,7 +29,7 @@
     <string name="shuffle">Shuffle</string>
     <string name="playlist">Playlist</string>
     <string name="image">Image</string>
-    <string name="alert_dialog_no_bt">Cannot use this application without bluetooth.</string>
+    <string name="alert_dialog_no_bt">Cannot use this application without bluetooth. Please turn on the bluetooth on this device.</string>
 	<string name="alert_dialog_yes">Yes</string>
 	<string name="alert_dialog_no">No</string>
 	<string name="alert_dialog_warning_title">Warning</string>

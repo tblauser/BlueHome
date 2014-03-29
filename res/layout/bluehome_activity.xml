@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="95dp"
         android:layout_marginTop="420dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     
@@ -107,7 +107,7 @@
         android:layout_marginLeft="120dip"        
         android:padding="5dip" 
         android:background="@layout/round_shape"    
-        android:src="@drawable/home_icon" />
+        android:src="@drawable/bluetooth_icon" />
     
     
 

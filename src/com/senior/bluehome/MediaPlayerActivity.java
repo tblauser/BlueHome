@@ -33,7 +33,7 @@ import android.widget.Toast;
 		private TextView songCurrentDurationLabel;
 		private TextView songTotalDurationLabel;
 		// Media Player
-		private  MediaPlayer mp;
+		private  MediaPlayer mp = new MediaPlayer();
 		// Handler to update UI timer, progress bar etc,.
 		private Handler mHandler = new Handler();;
 		private SongsManager songManager;
@@ -66,7 +66,7 @@ import android.widget.Toast;
 			songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
 			
 			// Mediaplayer
-			mp = new MediaPlayer();
+//			mp = new MediaPlayer();
 			songManager = new SongsManager();
 			utils = new Utilities();
 			
@@ -268,7 +268,10 @@ import android.widget.Toast;
 		    // Handle presses on the action bar items
 		    switch (item.getItemId()) {
 		        case R.id.home:
-		        	startActivity(new Intent(this, BlueHome.class));
+		        	Intent intent = new Intent(this, BlueHome.class);
+		        	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		        	startActivity(intent);
+//		        	startActivity(new Intent(this, BlueHome.class));
 		            return true;
 		        case R.id.media_player:
 		        	return super.onOptionsItemSelected(item);
@@ -444,10 +447,20 @@ import android.widget.Toast;
 			}
 		}
 		
+		
+		
+		@Override
+		public void onBackPressed()
+		{
+		   // super.onBackPressed(); // Comment this super call to avoid calling finish()
+		}
+		
 		@Override
 		 public void onDestroy(){
 		 super.onDestroy();
-		    mp.release();
+		 if (mp.isPlaying())
+			 mp.stop();
+//		    mp.release();
 		 }
 		
 	}

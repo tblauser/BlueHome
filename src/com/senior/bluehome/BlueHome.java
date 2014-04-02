@@ -56,6 +56,7 @@ import android.widget.ToggleButton;
 
 
 public class BlueHome extends Activity {
+	private static BlueHome lastPausedActivity = null;
     // Intent request codes
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -181,7 +182,8 @@ public class BlueHome extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+//		if (lastPausedActivity != null)
+//			this = lastPausedActivity;
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ ON CREATE +++");
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -210,7 +212,7 @@ public class BlueHome extends Activity {
 			return;
 		}		
         setContentView(R.layout.bluehome_activity);
-
+        
         mEmulatorView = (EmulatorView) findViewById(R.id.emulatorView);
 
         mEmulatorView.initialize( this );
@@ -623,6 +625,12 @@ public class BlueHome extends Activity {
         	mSerialService.stop();
         
 	}
+	
+	@Override
+	public void onBackPressed()
+	{
+	   // super.onBackPressed(); // Comment this super call to avoid calling finish()
+	}
 
     private void readPrefs() {
         mLocalEcho = mPrefs.getBoolean(LOCALECHO_KEY, mLocalEcho);
@@ -730,7 +738,7 @@ public class BlueHome extends Activity {
                 Toast.makeText(getApplicationContext(), "Connected to "
                                + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                 TextView textView = (TextView) findViewById(R.id.bluetoothStatus);
-                textView.setText("  Connected");
+                textView.setText("  Connected  ");
                 break;
             case MESSAGE_TOAST:
                 Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
@@ -956,7 +964,7 @@ public class BlueHome extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-//        mMenuItemConnect = menu.getItem(0);
+        mMenuItemConnect = menu.getItem(0);
         return true;
     }
 
@@ -979,7 +987,10 @@ public class BlueHome extends Activity {
 //            	}
 //            return true;
         case R.id.media_player:
-            startActivity(new Intent(this, MediaPlayerActivity.class));
+        	Intent intent = new Intent(this, MediaPlayerActivity.class);
+        	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        	startActivity(intent);
+//            startActivity(new Intent(this, MediaPlayerActivity.class));
             return true;
         default:
             return super.onOptionsItemSelected(item);

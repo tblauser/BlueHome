@@ -44,13 +44,21 @@
     
     <TextView
         android:id="@+id/bluetoothStatus"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="95dp"
+        android:layout_width = "150dip"
+        android:gravity = "center"
+        android:layout_marginLeft="85dp"
         android:layout_marginTop="420dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        android:textOn="@string/toggle_on"
+        android:textOff="@string/toggle_off"
+        android:padding="5dp"
+        android:background="@layout/round_text_shape"
+        android:textColor="@android:color/white" />
     
     <ImageButton android:id="@+id/lights_button"
         android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.*;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 	public class MediaPlayerActivity extends Activity implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
-
+		final Context context = this;
 		private ImageButton btnPlay;
 		private ImageButton btnForward;
 		private ImageButton btnBackward;
@@ -268,13 +269,18 @@ import android.widget.Toast;
 		    // Handle presses on the action bar items
 		    switch (item.getItemId()) {
 		        case R.id.home:
-		        	Intent intent = new Intent(this, BlueHome.class);
-		        	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		        	startActivity(intent);
+		        	Intent intent1 = new Intent(this, BlueHome.class);
+		        	intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		        	startActivity(intent1);
 //		        	startActivity(new Intent(this, BlueHome.class));
 		            return true;
 		        case R.id.media_player:
 		        	return super.onOptionsItemSelected(item);
+		        case R.id.webview:
+		        	Intent intent2 = new Intent(context, WebViewActivity.class);
+		        	intent2.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		        	startActivity(intent2);
+		        	return true;
 		        default:
 		            return super.onOptionsItemSelected(item);
 		    }

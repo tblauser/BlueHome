@@ -242,7 +242,7 @@ public class BlueHome extends Activity {
 //            btnSpeak.setText("Recognizer not present");
         }
         TextView textView = (TextView) findViewById(R.id.temperature);
-        textView.setText("--.- ¡F");
+        textView.setText("--.- F");
 //        mInputManager.hideSoftInputFromWindow(mEmulatorView.getWindowToken(), 0);
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ DONE IN ON CREATE +++");
@@ -258,7 +258,7 @@ public class BlueHome extends Activity {
 			public void onClick(View v) {
 				final AlertDialog.Builder adb = new AlertDialog.Builder(context);
 		        adb.setTitle("Select temperature: ");
-		        adb.setMessage("Current Set Temperature: " + setTemperature + " ¡F");
+		        adb.setMessage("Current Set Temperature: " + setTemperature + " F");
 		        
 		        final NumberPicker np = new NumberPicker(context);
 		        String[] nums = new String[MAX_TEMPERATURE-MIN_TEMPERATURE+1];
@@ -814,7 +814,7 @@ public class BlueHome extends Activity {
     private void setTemperature(String temperature) {
         TextView textView = (TextView) findViewById(R.id.temperature);
         StringBuffer result = new StringBuffer();
-        result.append(temperature).append(" ¡F");
+        result.append(temperature).append(" ï¿½F");
         textView.setText(new String(result));
         return;
     }
@@ -987,9 +987,14 @@ public class BlueHome extends Activity {
 //            	}
 //            return true;
         case R.id.media_player:
-        	Intent intent = new Intent(this, MediaPlayerActivity.class);
-        	intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        	startActivity(intent);
+        	Intent intent1 = new Intent(this, MediaPlayerActivity.class);
+        	intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        	startActivity(intent1);
+        	return true;
+        case R.id.webview:
+        	Intent intent2 = new Intent(context, WebViewActivity.class);
+        	intent2.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        	startActivity(intent2);
 //            startActivity(new Intent(this, MediaPlayerActivity.class));
             return true;
         default:

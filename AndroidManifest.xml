@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />  
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
@@ -34,6 +35,12 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.senior.bluehome.MediaPlayerActivity"
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
+            
+        </activity>
+        <activity
+            android:name="com.senior.bluehome.WebViewActivity"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
             

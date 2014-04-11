@@ -971,8 +971,8 @@ public class BlueHome extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.home:
-        	return super.onOptionsItemSelected(item);
+//        case R.id.home:
+//        	return super.onOptionsItemSelected(item);
 //        case R.id.connect:
 //        	
 //        	if (getConnectionState() == BluetoothSerialService.STATE_NONE) {

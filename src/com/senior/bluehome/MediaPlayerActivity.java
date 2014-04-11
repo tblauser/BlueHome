@@ -268,12 +268,11 @@ import android.widget.Toast;
 		public boolean onOptionsItemSelected(MenuItem item) {
 		    // Handle presses on the action bar items
 		    switch (item.getItemId()) {
-		        case R.id.home:
-		        	Intent intent1 = new Intent(this, BlueHome.class);
-		        	intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		        	startActivity(intent1);
-//		        	startActivity(new Intent(this, BlueHome.class));
-		            return true;
+//		        case R.id.home:
+//		        	Intent intent1 = new Intent(this, BlueHome.class);
+//		        	intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//		        	startActivity(intent1);
+//		            return true;
 		        case R.id.media_player:
 		        	return super.onOptionsItemSelected(item);
 		        case R.id.webview:

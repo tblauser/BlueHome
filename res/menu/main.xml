@@ -1,16 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-	<item android:id="@+id/home"
+	<!--item android:id="@+id/home"
 	    android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/home_page" />
-	<item
-        android:id="@+id/media_player"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/media_player"/>
+        android:title="@string/home_page" /-->
 	<item
         android:id="@+id/webview"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/web_control"/>
+	<item
+        android:id="@+id/media_player"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/media_player"/>
 </menu>

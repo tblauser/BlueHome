@@ -4,7 +4,7 @@
     <string name="app_name">BlueHome</string>
     <string name="home_page">Home Page</string>
     
-    <string name="web_control">Web Controls</string>
+    <string name="web_control">Controls</string>
 
 	<string name="alert_dialog_no_bt">El bluetooth debe estar activado para poder usar esta aplicación.</string>
 	<string name="alert_dialog_yes">Si</string>

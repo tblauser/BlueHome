@@ -16,23 +16,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.senior.bluehome.BlueHome"
-                  android:label="@string/app_name"
-                  android:configChanges="keyboardHidden|orientation"
-                  android:screenOrientation="portrait">
-            	  <intent-filter>
-                	<action android:name="android.intent.action.MAIN" />
-                	<category android:name="android.intent.category.LAUNCHER" />
-            	  </intent-filter>
-                  <!-- android:windowSoftInputMode="adjustResize|stateVisible">
-                  android:launchMode="singleInstance" -->
-        </activity>
-        <activity android:name="com.senior.bluehome.DeviceListActivity"
-                  android:label="@string/app_name"
-                  android:configChanges="orientation|keyboardHidden" 
-                  android:screenOrientation="portrait"/>
-        <activity android:name="TermPreferences"
-            android:screenOrientation="portrait"/>
         <activity
             android:name="com.senior.bluehome.MediaPlayerActivity"
             android:label="@string/app_name" 
@@ -43,7 +26,10 @@
             android:name="com.senior.bluehome.WebViewActivity"
             android:label="@string/app_name" 
             android:screenOrientation="portrait">
-            
+            	<intent-filter>
+                	<action android:name="android.intent.action.MAIN" />
+                	<category android:name="android.intent.category.LAUNCHER" />
+            	</intent-filter>
         </activity>
         <activity
             android:name="com.senior.bluehome.PlayListActivity"
